@@ -1,0 +1,54 @@
+# Render Blueprint Configuration
+# https://render.com/docs/blueprint-spec
+
+services:
+  # Web Service
+  - type: web
+    name: nettap-api
+    env: docker
+    dockerfilePath: ./Dockerfile
+    region: frankfurt
+    plan: starter
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_TYPE
+        value: postgres
+      - key: LOG_LEVEL
+        value: info
+      - key: POSTGRES_HOST
+        fromDatabase:
+          name: nettap-postgres
+          property: host
+      - key: POSTGRES_PORT
+        fromDatabase:
+          name: nettap-postgres
+          property: port
+      - key: POSTGRES_DB
+        fromDatabase:
+          name: nettap-postgres
+          property: database
+      - key: POSTGRES_USER
+        fromDatabase:
+          name: nettap-postgres
+          property: user
+      - key: POSTGRES_PASSWORD
+        fromDatabase:
+          name: nettap-postgres
+          property: password
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 15m
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: 7d
+
+  # PostgreSQL Database
+databases:
+  - name: nettap-postgres
+    databaseName: nettap
+    user: nettap_user
+    plan: starter
+    region: frankfurt

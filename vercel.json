@@ -1,0 +1,23 @@
+# Vercel Deployment Configuration
+# https://vercel.com/docs/project-configuration
+
+{
+  "version": 2,
+  "name": "nettap-az",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm ci",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "regions": ["iad1"],
+  "env": {
+    "NODE_ENV": "production",
+    "DATABASE_TYPE": "sheets",
+    "LOG_LEVEL": "info"
+  },
+  "build": {
+    "env": {
+      "NEXT_TELEMETRY_DISABLED": "1"
+    }
+  }
+}
